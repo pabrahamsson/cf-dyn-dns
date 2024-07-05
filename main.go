@@ -16,7 +16,6 @@ import (
 const (
 	OPENDNS_HOSTNAME      = "myip.opendns.com."
 	OPENDNS_NAMESERVER    = "208.67.222.222"
-	CLOUDFLARE_HOSTNAME   = "ph.gtvc.net."
 	CLOUDFLARE_NAMESERVER = "1.0.0.1"
 )
 
@@ -32,6 +31,7 @@ func dnsQuery(name string, server net.IP) (*dns.Msg, error) {
 }
 
 func ipLookup() (string, string, error) {
+	CLOUDFLARE_HOSTNAME := fmt.Sprintf("%s.", os.Getenv("CLOUDFLARE_DNS_RECORD"))
 	reply_odns, err := dnsQuery(OPENDNS_HOSTNAME, net.ParseIP(OPENDNS_NAMESERVER))
 	if err != nil {
 		return "", "", err
