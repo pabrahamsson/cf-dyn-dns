@@ -38,8 +38,6 @@ jobs:
       - name: Install cosign
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@v3.3.0
-        with:
-          cosign-release: 'v1.13.1'
 
       - name: Build image
         id: buildah-build
