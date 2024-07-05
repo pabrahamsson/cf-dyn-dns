@@ -79,5 +79,5 @@ jobs:
         # against the sigstore community Fulcio instance.
         run: |
           cp ${XDG_RUNTIME_DIR}/containers/auth.json ~/.docker/config.json
-          cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.push-to-registry.outputs.digest }}
+          cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.push-to-registry.outputs.digest }} -y
           #echo "${{ steps.buildah-build.outputs.image }}" | xargs -I {} cosign sign {}@${{ steps.push-to-registry.outputs.digest }}
