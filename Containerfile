@@ -23,7 +23,7 @@ COPY main.go main.go
 RUN export CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} && \
   go build .
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal:9.4-1227.1726694542
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.5-1731604394
 
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
 
