@@ -4,6 +4,7 @@ go 1.21.5
 
 require (
 	github.com/cloudflare/cloudflare-go v0.110.0
+	github.com/cloudflare/cloudflare-go/v3 v3.1.0
 	github.com/miekg/dns v1.1.62
 	github.com/rs/zerolog v1.33.0
 )
