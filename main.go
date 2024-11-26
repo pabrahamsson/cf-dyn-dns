@@ -7,7 +7,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/cloudflare/cloudflare-go"
+	"github.com/cloudflare/cloudflare-go/v3"
+	cfdns "github.com/cloudflare/cloudflare-go/v3/dns"
+	"github.com/cloudflare/cloudflare-go/v3/option"
+	"github.com/cloudflare/cloudflare-go/v3/zones"
 	"github.com/miekg/dns"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -30,13 +33,13 @@ func dnsQuery(name string, server net.IP) (*dns.Msg, error) {
 	return reply, nil
 }
 
-func ipLookup() (string, string, error) {
-	CLOUDFLARE_HOSTNAME := fmt.Sprintf("%s.", os.Getenv("CLOUDFLARE_DNS_RECORD"))
+func ipLookup(dnsName string) (string, string, error) {
+	dnsName = fmt.Sprintf("%s.", dnsName)
 	reply_odns, err := dnsQuery(OPENDNS_HOSTNAME, net.ParseIP(OPENDNS_NAMESERVER))
 	if err != nil {
 		return "", "", err
 	}
-	reply_cf, err := dnsQuery(CLOUDFLARE_HOSTNAME, net.ParseIP(CLOUDFLARE_NAMESERVER))
+	reply_cf, err := dnsQuery(dnsName, net.ParseIP(CLOUDFLARE_NAMESERVER))
 	if err != nil {
 		return "", "", err
 	}
@@ -51,47 +54,64 @@ func ipLookup() (string, string, error) {
 	return lookupIP.A.String(), currentIP.A.String(), nil
 }
 
-func updateDnsRecord(newIPAddress string) error {
+func updateDnsRecord(dnsName, newIPAddress string) error {
 	log.Info().Msgf("Found new ip address, setting to %s", newIPAddress)
-	CLOUDFLARE_API_TOKEN := os.Getenv("CLOUDFLARE_API_TOKEN")
-	CLOUDFLARE_DNS_ZONE := os.Getenv("CLOUDFLARE_DNS_ZONE")
-	CLOUDFLARE_DNS_RECORD := os.Getenv("CLOUDFLARE_DNS_RECORD")
-	api, err := cloudflare.NewWithAPIToken(CLOUDFLARE_API_TOKEN)
-	if err != nil {
-		return err
-	}
+
+	client := cloudflare.NewClient()
 
 	ctx := context.Background()
-	recs, _, err := api.ListDNSRecords(ctx, cloudflare.ZoneIdentifier(CLOUDFLARE_DNS_ZONE), cloudflare.ListDNSRecordsParams{Name: CLOUDFLARE_DNS_RECORD})
+	zones, err := client.Zones.List(ctx, zones.ZoneListParams{})
 	if err != nil {
 		return err
 	}
-
-	rec, err := api.GetDNSRecord(ctx, cloudflare.ZoneIdentifier(CLOUDFLARE_DNS_ZONE), recs[0].ID)
-	if err != nil {
-		return err
+	if len(zones.Result) != 1 {
+		return fmt.Errorf("Unexpected number of zones found: %v", zones.Result)
 	}
-
-	rec, err = api.UpdateDNSRecord(ctx, cloudflare.ZoneIdentifier(CLOUDFLARE_DNS_ZONE), cloudflare.UpdateDNSRecordParams{
-		ID:      rec.ID,
-		Content: newIPAddress,
+	zoneId := zones.Result[0].ID
+	recs, err := client.DNS.Records.List(ctx, cfdns.RecordListParams{
+		ZoneID: cloudflare.F(zoneId),
+		Name:   cloudflare.F(dnsName),
 	})
 	if err != nil {
 		return err
 	}
+	if len(recs.Result) != 1 {
+		return fmt.Errorf("Unexpected number of records found: %v", recs.Result)
+	}
+	recordId := recs.Result[0].ID
+	_, err = client.DNS.Records.Update(ctx, recordId, cfdns.RecordUpdateParams{
+		ZoneID: cloudflare.F(zoneId),
+		Record: cfdns.RecordParam{
+			Name: cloudflare.F(dnsName),
+		},
+	}, option.WithJSONSet("content", newIPAddress), option.WithJSONSet("type", "A"))
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	_, ok := os.LookupEnv("CLOUDFLARE_API_TOKEN")
+	if !ok {
+		log.Info().Msgf("CLOUDFLARE_API_TOKEN is not set")
+		os.Exit(1)
+	}
+	dnsName, ok := os.LookupEnv("CLOUDFLARE_DNS_RECORD")
+	if !ok {
+		log.Info().Msgf("CLOUDFLARE_DNS_RECORD is not set")
+		os.Exit(1)
+	}
 	for {
-		oldIPAddress, newIPAddress, err := ipLookup()
+		oldIPAddress, newIPAddress, err := ipLookup(dnsName)
 		if err != nil {
 			log.Error().Msgf("failed to lookup ip addresses, %v", err)
 		}
 
 		if oldIPAddress != newIPAddress {
-			err := updateDnsRecord(newIPAddress)
+			err := updateDnsRecord(dnsName, newIPAddress)
 			if err != nil {
 				log.Error().Msgf("%v", err)
 			}
