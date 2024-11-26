@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.0.1...v1.1.0) (2024-11-26)
+
+
+### Features
+
+* Switch to cloudflare-go v3 ([d712884](https://github.com/pabrahamsson/cf-dyn-dns/commit/d7128848acf60bfad4ff5ddafbccb4036f2b29a3))
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go to v0.110.0 ([11a3ac4](https://github.com/pabrahamsson/cf-dyn-dns/commit/11a3ac46cd407080c76fc5a5bf3195d82c5e8dce))
+
 ## [1.0.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.0.0...v1.0.1) (2024-07-05)
 
 
