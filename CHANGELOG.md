@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.1.0...v1.2.0) (2024-11-27)
+
+
+### Features
+
+* **otel:** Add inital support for OpenTelemetry ([be03405](https://github.com/pabrahamsson/cf-dyn-dns/commit/be03405f7fd3c4089b772948e28c12cb24b26cee))
+
+
+### Bug Fixes
+
+* **build:** Fix Containerfile file copying ([3509ff5](https://github.com/pabrahamsson/cf-dyn-dns/commit/3509ff5710918b71497cfca60b8ac14664c3004b))
+
 ## [1.1.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.0.1...v1.1.0) (2024-11-26)
 
 
