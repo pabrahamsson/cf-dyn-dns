@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.2.0...v1.2.1) (2024-11-28)
+
+
+### Bug Fixes
+
+* **otel:** Set per function failure counters ([9ac676e](https://github.com/pabrahamsson/cf-dyn-dns/commit/9ac676e3c876bd71fe3ce26674a5cbfe984eda67))
+
 ## [1.2.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.1.0...v1.2.0) (2024-11-27)
 
 
