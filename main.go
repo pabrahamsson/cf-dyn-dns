@@ -188,6 +188,9 @@ func run() (err error) {
 	// Start the prometheus HTTP server and pass the exporter Collector to it.
 	go serveMetrics()
 
+	// Initialize the failure count
+	failureCnt.Add(context.Background(), 0)
+
 	for {
 		lookup := Lookup{
 			DnsHost:    CLOUDFLARE_NAMESERVER,
@@ -199,7 +202,7 @@ func run() (err error) {
 
 		err := ipLookup(ctx, &lookup)
 		if err != nil {
-			failureValueAttr := attribute.Int("failure.value", 1)
+			failureValueAttr := attribute.Int("ipLookup", 1)
 			span.SetAttributes(failureValueAttr)
 			failureCnt.Add(ctx, 1, metric.WithAttributes(failureValueAttr))
 			return fmt.Errorf("failed to lookup ip addresses, %v", err)
@@ -208,7 +211,7 @@ func run() (err error) {
 		if lookup.DnsIp != lookup.LookupIp {
 			err := updateDnsRecord(ctx, lookup.DnsName, lookup.LookupIp)
 			if err != nil {
-				failureValueAttr := attribute.Int("failure.value", 1)
+				failureValueAttr := attribute.Int("updateDnsRecord", 1)
 				span.SetAttributes(failureValueAttr)
 				failureCnt.Add(ctx, 1, metric.WithAttributes(failureValueAttr))
 				return fmt.Errorf("failed to update DNS record, %v", err)
