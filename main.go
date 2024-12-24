@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/cloudflare/cloudflare-go/v3"
@@ -61,29 +62,30 @@ func init() {
 	}
 }
 
-func dnsQuery(ctx context.Context, name string, server net.IP) (string, error) {
+func dnsQuery(ctx context.Context, name string, server net.IP, result *string, wg *sync.WaitGroup, err *error) {
 	ctx, span := tracer.Start(ctx, fmt.Sprintf("dnsQuery(%s@%s)", name, server.String()))
 	defer span.End()
+	defer wg.Done()
+
+	var reply *dns.Msg
 
 	msg := new(dns.Msg)
 	msg.SetQuestion(name, dns.TypeA)
 	c := new(dns.Client)
-	reply, _, err := c.ExchangeContext(ctx, msg, server.String()+":53")
-	if err != nil {
-		return "", err
-	}
+	reply, _, *err = c.ExchangeContext(ctx, msg, server.String()+":53")
 
 	lookupIP, ok := reply.Answer[0].(*dns.A)
 	if !ok {
-		return "", fmt.Errorf("lookupIP type assertion failed")
+		*err = fmt.Errorf("lookupIP type assertion failed")
 	}
+
+	*result = lookupIP.A.String()
 
 	span.SetAttributes(
 		attribute.String("Name", name),
 		attribute.String("Server", server.String()),
-		attribute.String("Result", lookupIP.A.String()),
+		attribute.String("Result", *result),
 	)
-	return lookupIP.A.String(), nil
 }
 
 func ipLookup(ctx context.Context, lookup *Lookup) error {
@@ -92,15 +94,17 @@ func ipLookup(ctx context.Context, lookup *Lookup) error {
 	defer span.End()
 
 	var err error
+	var wg sync.WaitGroup
+	wg.Add(2)
 
-	lookup.LookupIp, err = dnsQuery(ctx, lookup.LookupName, net.ParseIP(lookup.LookupHost))
+	go dnsQuery(ctx, lookup.LookupName, net.ParseIP(lookup.LookupHost), &lookup.LookupIp, &wg, &err)
+	go dnsQuery(ctx, dnsName, net.ParseIP(lookup.DnsHost), &lookup.DnsIp, &wg, &err)
+	wg.Wait()
+
 	if err != nil {
 		return err
 	}
-	lookup.DnsIp, err = dnsQuery(ctx, dnsName, net.ParseIP(lookup.DnsHost))
-	if err != nil {
-		return err
-	}
+
 	return nil
 }
 
@@ -160,8 +164,9 @@ func serveMetrics() {
 
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	log.Info().Msg("Schtarrrting!!!")
 	if err := run(); err != nil {
-		log.Fatal().Err(err)
+		log.Fatal().Msg(err.Error())
 	}
 }
 
