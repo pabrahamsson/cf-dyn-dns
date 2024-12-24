@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.2.2...v1.3.0) (2024-12-24)
+
+
+### Features
+
+* Use concurrent DNS lookups ([3cce691](https://github.com/pabrahamsson/cf-dyn-dns/commit/3cce69133c844673bc62882ff22294192414d31d))
+
 ## [1.2.2](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.2.1...v1.2.2) (2024-12-23)
 
 
