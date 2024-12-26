@@ -38,12 +38,13 @@ var (
 )
 
 type Lookup struct {
-	DnsHost    string
-	DnsName    string
-	DnsIp      string
-	LookupHost string
-	LookupName string
-	LookupIp   string
+	host      string
+	name      string
+	ipAddress string
+}
+
+func (f Lookup) samesies(f2 Lookup) bool {
+	return f.ipAddress == f2.ipAddress
 }
 
 func init() {
@@ -62,43 +63,43 @@ func init() {
 	}
 }
 
-func dnsQuery(ctx context.Context, name string, server net.IP, result *string, wg *sync.WaitGroup, err *error) {
-	ctx, span := tracer.Start(ctx, fmt.Sprintf("dnsQuery(%s@%s)", name, server.String()))
+func dnsQuery(ctx context.Context, lookup *Lookup, wg *sync.WaitGroup, err *error) {
+	ctx, span := tracer.Start(ctx, fmt.Sprintf("dnsQuery(%s@%s)", lookup.name, lookup.host))
 	defer span.End()
 	defer wg.Done()
 
 	var reply *dns.Msg
+	nameServer := fmt.Sprintf("%s:53", net.ParseIP(lookup.host).String())
 
 	msg := new(dns.Msg)
-	msg.SetQuestion(name, dns.TypeA)
+	msg.SetQuestion(lookup.name, dns.TypeA)
 	c := new(dns.Client)
-	reply, _, *err = c.ExchangeContext(ctx, msg, server.String()+":53")
+	reply, _, *err = c.ExchangeContext(ctx, msg, nameServer)
 
 	lookupIP, ok := reply.Answer[0].(*dns.A)
 	if !ok {
 		*err = fmt.Errorf("lookupIP type assertion failed")
 	}
 
-	*result = lookupIP.A.String()
+	lookup.ipAddress = lookupIP.A.String()
 
 	span.SetAttributes(
-		attribute.String("Name", name),
-		attribute.String("Server", server.String()),
-		attribute.String("Result", *result),
+		attribute.String("Name", lookup.name),
+		attribute.String("Server", lookup.host),
+		attribute.String("Result", lookup.ipAddress),
 	)
 }
 
-func ipLookup(ctx context.Context, lookup *Lookup) error {
-	dnsName := fmt.Sprintf("%s.", lookup.DnsName)
-	ctx, span := tracer.Start(ctx, fmt.Sprintf("ipLookup(%s)", dnsName))
+func ipLookup(ctx context.Context, dnsLookup *Lookup, hostLookup *Lookup) error {
+	ctx, span := tracer.Start(ctx, fmt.Sprintf("ipLookup(%s)", dnsLookup.name))
 	defer span.End()
 
 	var err error
 	var wg sync.WaitGroup
 	wg.Add(2)
 
-	go dnsQuery(ctx, lookup.LookupName, net.ParseIP(lookup.LookupHost), &lookup.LookupIp, &wg, &err)
-	go dnsQuery(ctx, dnsName, net.ParseIP(lookup.DnsHost), &lookup.DnsIp, &wg, &err)
+	go dnsQuery(ctx, dnsLookup, &wg, &err)
+	go dnsQuery(ctx, hostLookup, &wg, &err)
 	wg.Wait()
 
 	if err != nil {
@@ -115,8 +116,6 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 		attribute.String("Name", dnsName),
 		attribute.String("Value", newIPAddress),
 	)
-
-	log.Info().Msgf("Found new ip address, setting to %s", newIPAddress)
 
 	client := cloudflare.NewClient()
 
@@ -148,6 +147,8 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 	if err != nil {
 		return err
 	}
+
+	log.Info().Msgf("Found new ip address, dns updated to %s", newIPAddress)
 
 	return nil
 }
@@ -197,15 +198,17 @@ func run() (err error) {
 	failureCnt.Add(context.Background(), 0)
 
 	for {
-		lookup := Lookup{
-			DnsHost:    CLOUDFLARE_NAMESERVER,
-			DnsName:    dnsName,
-			LookupHost: OPENDNS_NAMESERVER,
-			LookupName: OPENDNS_HOSTNAME,
+		dnsLookup := Lookup{
+			host: CLOUDFLARE_NAMESERVER,
+			name: fmt.Sprintf("%s.", dnsName),
+		}
+		hostLookup := Lookup{
+			host: OPENDNS_NAMESERVER,
+			name: OPENDNS_HOSTNAME,
 		}
 		ctx, span := tracer.Start(context.Background(), "main")
 
-		err := ipLookup(ctx, &lookup)
+		err := ipLookup(ctx, &dnsLookup, &hostLookup)
 		if err != nil {
 			failureValueAttr := attribute.Int("ipLookup", 1)
 			span.SetAttributes(failureValueAttr)
@@ -213,8 +216,8 @@ func run() (err error) {
 			return fmt.Errorf("failed to lookup ip addresses, %v", err)
 		}
 
-		if lookup.DnsIp != lookup.LookupIp {
-			err := updateDnsRecord(ctx, lookup.DnsName, lookup.LookupIp)
+		if !dnsLookup.samesies(hostLookup) {
+			err := updateDnsRecord(ctx, dnsName, hostLookup.ipAddress)
 			if err != nil {
 				failureValueAttr := attribute.Int("updateDnsRecord", 1)
 				span.SetAttributes(failureValueAttr)
@@ -225,7 +228,7 @@ func run() (err error) {
 			successValueAttr := attribute.Int("success.value", 1)
 			span.SetAttributes(successValueAttr)
 			successCnt.Add(ctx, 1, metric.WithAttributes(successValueAttr))
-			log.Info().Msgf("samesies, %s", lookup.DnsIp)
+			log.Info().Msgf("samesies, %s", dnsLookup.ipAddress)
 		}
 		span.End()
 		time.Sleep(time.Second * 120)
