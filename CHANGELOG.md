@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.3.0...v1.3.1) (2024-12-26)
+
+
+### Bug Fixes
+
+* Improve data structure(s) ([39545e9](https://github.com/pabrahamsson/cf-dyn-dns/commit/39545e9d6116cc51fbadf838b5e3804a245a441c))
+
 ## [1.3.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.2.2...v1.3.0) (2024-12-24)
 
 
