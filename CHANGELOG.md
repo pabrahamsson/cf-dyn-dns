@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.3.1...v1.4.0) (2024-12-28)
+
+
+### Features
+
+* **metrics:** Add Histogram for dns lookup and update operations ([cdf2a70](https://github.com/pabrahamsson/cf-dyn-dns/commit/cdf2a70efa15e8d4cb1db84a79c691b1b6d28485))
+
 ## [1.3.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.3.0...v1.3.1) (2024-12-26)
 
 
