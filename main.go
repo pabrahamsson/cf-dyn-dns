@@ -31,10 +31,12 @@ const (
 )
 
 var (
-	tracer     = otel.Tracer(name)
-	meter      = otel.Meter(name)
-	successCnt metric.Int64Counter
-	failureCnt metric.Int64Counter
+	tracer            = otel.Tracer(name)
+	meter             = otel.Meter(name)
+	successCnt        metric.Int64Counter
+	failureCnt        metric.Int64Counter
+	dnsLookupDuration metric.Int64Histogram
+	dnsUpdateDuration metric.Int64Histogram
 )
 
 type Lookup struct {
@@ -61,6 +63,20 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	dnsLookupDuration, err = meter.Int64Histogram("dns.lookup.duration",
+		metric.WithDescription("The duration of dns lookup."),
+		metric.WithUnit("ms"),
+	)
+	if err != nil {
+		panic(err)
+	}
+	dnsUpdateDuration, err = meter.Int64Histogram("dns.update.duration",
+		metric.WithDescription("The duration of dns update."),
+		metric.WithUnit("ms"),
+	)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func dnsQuery(ctx context.Context, lookup *Lookup, wg *sync.WaitGroup, err *error) {
@@ -74,7 +90,10 @@ func dnsQuery(ctx context.Context, lookup *Lookup, wg *sync.WaitGroup, err *erro
 	msg := new(dns.Msg)
 	msg.SetQuestion(lookup.name, dns.TypeA)
 	c := new(dns.Client)
+	start := time.Now()
 	reply, _, *err = c.ExchangeContext(ctx, msg, nameServer)
+	duration := time.Since(start)
+	dnsLookupDuration.Record(ctx, duration.Milliseconds())
 
 	lookupIP, ok := reply.Answer[0].(*dns.A)
 	if !ok {
@@ -117,6 +136,7 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 		attribute.String("Value", newIPAddress),
 	)
 
+	start := time.Now()
 	client := cloudflare.NewClient()
 
 	zones, err := client.Zones.List(ctx, zones.ZoneListParams{})
@@ -144,6 +164,8 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 			Name: cloudflare.F(dnsName),
 		},
 	}, option.WithJSONSet("content", newIPAddress), option.WithJSONSet("type", "A"))
+	duration := time.Since(start)
+	dnsUpdateDuration.Record(ctx, duration.Milliseconds())
 	if err != nil {
 		return err
 	}
