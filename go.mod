@@ -2,7 +2,7 @@ module github.com/pabrahamsson/cf-dyn-dns
 
 go 1.22.7
 
-toolchain go1.23.5
+toolchain go1.24.0
 
 require (
 	github.com/cloudflare/cloudflare-go/v3 v3.1.0
