@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.4](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.3...v1.4.4) (2025-02-18)
+
+
+### Bug Fixes
+
+* **deps:** switch to cloudflare-go v4 ([f78bccf](https://github.com/pabrahamsson/cf-dyn-dns/commit/f78bccfecb8146f3209f832a9c96bfc58c924f59))
+
 ## [1.4.3](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.2...v1.4.3) (2025-02-18)
 
 
