@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudflare/cloudflare-go/v3"
-	cfdns "github.com/cloudflare/cloudflare-go/v3/dns"
-	"github.com/cloudflare/cloudflare-go/v3/option"
-	"github.com/cloudflare/cloudflare-go/v3/zones"
+	"github.com/cloudflare/cloudflare-go/v4"
+	cfdns "github.com/cloudflare/cloudflare-go/v4/dns"
+	"github.com/cloudflare/cloudflare-go/v4/option"
+	"github.com/cloudflare/cloudflare-go/v4/zones"
 	"github.com/miekg/dns"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog"
@@ -147,9 +147,12 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 		return fmt.Errorf("Unexpected number of zones found: %v", zones.Result)
 	}
 	zoneId := zones.Result[0].ID
+	name := cfdns.RecordListParamsName{
+		Exact: cloudflare.F(dnsName),
+	}
 	recs, err := client.DNS.Records.List(ctx, cfdns.RecordListParams{
 		ZoneID: cloudflare.F(zoneId),
-		Name:   cloudflare.F(dnsName),
+		Name:   cloudflare.F(name),
 	})
 	if err != nil {
 		return err
