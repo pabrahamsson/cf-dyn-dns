@@ -5,7 +5,7 @@ go 1.22.7
 toolchain go1.23.5
 
 require (
-	github.com/cloudflare/cloudflare-go/v3 v3.1.0
+	github.com/cloudflare/cloudflare-go/v4 v4.1.0
 	github.com/cloudflare/cloudflare-go/v4 v4.1.0
 	github.com/miekg/dns v1.1.63
 	github.com/prometheus/client_golang v1.20.5
