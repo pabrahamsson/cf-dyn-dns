@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.6](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.5...v1.4.6) (2025-03-12)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/client_golang to v1.21.1 ([bad9853](https://github.com/pabrahamsson/cf-dyn-dns/commit/bad985345d2014ca6a2e1e63b12ba16a5090380f))
+* **deps:** update module github.com/prometheus/client_golang to v1.21.1 ([2306963](https://github.com/pabrahamsson/cf-dyn-dns/commit/2306963508a752f5915013d52461ee4d410e7a37))
+* **deps:** update opentelemetry-go monorepo ([f5bc461](https://github.com/pabrahamsson/cf-dyn-dns/commit/f5bc461ef145bfcce79d875308dd1b71b098c069))
+* **deps:** update opentelemetry-go monorepo ([63c84a2](https://github.com/pabrahamsson/cf-dyn-dns/commit/63c84a2ae39fccd36b288a8b93e60ce4976af53c))
+
 ## [1.4.5](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.4...v1.4.5) (2025-02-20)
 
 
