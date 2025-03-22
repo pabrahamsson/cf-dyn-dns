@@ -8,7 +8,7 @@ require (
 	github.com/cloudflare/cloudflare-go/v4 v4.2.0
 	github.com/miekg/dns v1.1.64
 	github.com/prometheus/client_golang v1.21.1
-	github.com/rs/zerolog v1.33.0
+	github.com/rs/zerolog v1.34.0
 	go.opentelemetry.io/otel v1.35.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.35.0
 	go.opentelemetry.io/otel/exporters/prometheus v0.57.0
