@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.9](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.8...v1.4.9) (2025-04-03)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/rs/zerolog to v1.34.0 ([670bf57](https://github.com/pabrahamsson/cf-dyn-dns/commit/670bf57612344db26007796634cd6d5e89e09436))
+* **deps:** update module github.com/rs/zerolog to v1.34.0 ([a51b098](https://github.com/pabrahamsson/cf-dyn-dns/commit/a51b098d09cc718b1bb939dfd3424f01c86d6f59))
+
 ## [1.4.8](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.7...v1.4.8) (2025-03-20)
 
 
