@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.4.12](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.11...v1.4.12) (2025-05-08)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v4.3.0 ([3fb5aa6](https://github.com/pabrahamsson/cf-dyn-dns/commit/3fb5aa6dc3d1b7fd8deb28f2db874016a281b78e))
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v4.3.0 ([54c877e](https://github.com/pabrahamsson/cf-dyn-dns/commit/54c877ee140226e69e2a3c205fab7790b3642728))
+* **deps:** update module github.com/miekg/dns to v1.1.66 ([99382f8](https://github.com/pabrahamsson/cf-dyn-dns/commit/99382f82ed3a700c3ddf5bab713818f5b1a459d6))
+* **deps:** update module github.com/miekg/dns to v1.1.66 ([56e5438](https://github.com/pabrahamsson/cf-dyn-dns/commit/56e54384f93304b64f921352d8013536ee026cc6))
+
 ## [1.4.11](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.10...v1.4.11) (2025-04-18)
 
 
