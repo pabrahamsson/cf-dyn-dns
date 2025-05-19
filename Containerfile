@@ -5,11 +5,11 @@ ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
 
-USER 1001
-RUN mkdir -p /tmp/build
+USER 0
+#RUN mkdir -p /tmp/build
 
 # Copy the code
-WORKDIR /tmp/build
+#WORKDIR /tmp/build
 COPY . .
 
 RUN export CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} && \
@@ -17,6 +17,7 @@ RUN export CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} && \
 RUN ls -al
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:9.6-1747218906
+USER 0
 
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
 
@@ -24,8 +25,8 @@ ENV GOTRACEBACK=all
 
 WORKDIR /
 
-#COPY --from=builder /opt/app-root/src/cf-dyn-dns /cf-dyn-dns
-COPY --from=builder /tmp/build/cf-dyn-dns /cf-dyn-dns
+COPY --from=builder /opt/app-root/src/cf-dyn-dns /cf-dyn-dns
+#COPY --from=builder /tmp/build/cf-dyn-dns /cf-dyn-dns
 
-
+USER 1001
 ENTRYPOINT ["/cf-dyn-dns"]
