@@ -16,7 +16,6 @@ RUN export CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} && \
 RUN ls -al
 
 FROM registry.access.redhat.com/ubi10/ubi-micro:10.0-1747317009
-USER 0
 
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
 
