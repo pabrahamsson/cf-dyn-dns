@@ -6,7 +6,7 @@ metadata:
   annotations:
     pipelinesascode.tekton.dev/on-event: "[push]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    pipelinesascode.tekton.dev/task: "git-clone"
+    pipelinesascode.tekton.dev/task: "[git-clone, kaniko]"
 spec:
   params:
     - name: repo_url
@@ -50,18 +50,20 @@ spec:
         workspaces:
           - name: source
             workspace: source
-      - name: build-and-upload-release-artifacts
+      - name: build-and-push-image
+        when:
+          - cel: "'$(tasks.release-please.results.release-created)' == 'true'"
         runAfter:
           - check-release-status
         taskRef:
-          name: build-and-upload-release-artifacts
+          name: kaniko
         params:
-          - name: release-created
-            value: "$(tasks.check-release-status.results.release-created)"
-          - name: release-tag
-            value: "$(tasks.check-release-status.results.release-tag)"
-          - name: release-id
-            value: "$(tasks.check-release-status.results.release-id)"
+          - name: IMAGE
+            value: "ghcr.io/pabrahamsson/cf-dyn-dns:$(tasks.check-release-status.results.release-tag)"
+          - name: DOCKERFILE
+            value: ./Containerfile
+          - name: WRITER_IMAGE
+            value: registry.access.redhat.com/ubi10/ubi-minimal:10.0-1747219969
         workspaces:
           - name: source
             workspace: source
@@ -103,7 +105,7 @@ spec:
 
         # Run release-please to create/update PR
         PR_RESULT=$(release-please release-pr \
-          --repo-url=pabrahamsson/rpmostree_exporter \
+          --repo-url=pabrahamsson/cf-dyn-dns \
           --token=$GH_TOKEN \
           --debug || echo "No release PR updates needed")
 
@@ -121,7 +123,7 @@ spec:
 
         # Create a GitHub release if needed
         RELEASE_RESULT=$(release-please github-release \
-          --repo-url=pabrahamsson/rpmostree_exporter \
+          --repo-url=pabrahamsson/cf-dyn-dns \
           --token=$GH_TOKEN \
           --debug || echo "No new release created")
 
@@ -170,13 +172,13 @@ spec:
         # Check for open PRs from release-please
         echo "Checking for open Release Please pull requests..."
         curl -s -H "Authorization: token $GITHUB_TOKEN" \
-          "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/pulls?head=pabrahamsson:release-please" | \
+          "https://api.github.com/repos/pabrahamsson/cf-dyn-dns/pulls?head=pabrahamsson:release-please" | \
           jq -r '.[] | "Found PR #\(.number): \(.title)"'
 
         # Check for latest release
         echo "Checking latest release information..."
         LATEST_RELEASE=$(curl -s H "Authorization: token $GITHUB_TOKEN" \
-          "https://api.github.com/repos/pabrahamsson/rpmostree_exporter/releases/latest")
+          "https://api.github.com/repos/pabrahamsson/cf-dyn-dns/releases/latest")
 
         # Get the tag name and display info
         TAG_NAME=$(echo $LATEST_RELEASE | jq -r '.tag_name')
@@ -241,28 +243,3 @@ spec:
         make && make gotest && make checksums
 
         echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
-
-    - name: upload-artifacts
-      image: quay.io/pabrahamsson/gh-cli:2.72.0-2
-      workingDir: $(workspaces.source.path)
-      env:
-        - name: GITHUB_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: github-token
-              key: token
-      script: |
-        #!/usr/bin/env bash
-        set -e
-
-        if [[ "$(params.release-created)" != "true" ]]; then
-          echo "Skipping artifact build."
-          exit 0
-        fi
-
-        echo "Uploading artifacts to GitHub release $(params.release-tag)..."
-
-        git config --global --add safe.directory $(pwd)
-        gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_amd64
-        gh release upload $(params.release-tag) ./bin/rpmostree_exporter_linux_arm64
-        gh release upload $(params.release-tag) ./bin/rpmostree_exporter_checksums.txt
