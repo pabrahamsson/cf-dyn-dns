@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.5.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.12...v1.5.0) (2025-06-04)
+
+
+### Features
+
+* **pac:** Initial migration to PaC ([a53ac6e](https://github.com/pabrahamsson/cf-dyn-dns/commit/a53ac6e3bf15e239c23b4ffdcce3d0818a74a7bd))
+* **pac:** Initial migration to PaC ([969fedf](https://github.com/pabrahamsson/cf-dyn-dns/commit/969fedf615e77426f4345ffd5e04d3218a800788))
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v4.4.0 ([4517d7e](https://github.com/pabrahamsson/cf-dyn-dns/commit/4517d7e774dd3696e0c7dd1ba296a3540f99c036))
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v4.4.0 ([bc0c472](https://github.com/pabrahamsson/cf-dyn-dns/commit/bc0c47247fc50d8b50a4355f153688585f52aeb7))
+* **deps:** update opentelemetry-go monorepo ([3289868](https://github.com/pabrahamsson/cf-dyn-dns/commit/32898689c2e08b0a5cf8936019062045c884c26c))
+* **deps:** update opentelemetry-go monorepo ([01c362c](https://github.com/pabrahamsson/cf-dyn-dns/commit/01c362cc66c675ede5acb593bf0f7e95f847d873))
+* **pac:** Add custom build task ([3c93a30](https://github.com/pabrahamsson/cf-dyn-dns/commit/3c93a304b998d6ae81c0e640ca40f1667c739c46))
+* **pac:** Add release-please config ([f049702](https://github.com/pabrahamsson/cf-dyn-dns/commit/f0497026fb38463af742177ea7ed1ce029b233ae))
+* **pac:** Add release-please config ([dc9e1df](https://github.com/pabrahamsson/cf-dyn-dns/commit/dc9e1dfcb5fe64739251948152d1044676ac6c1e))
+* **pac:** Address build cache permissions ([9cbb910](https://github.com/pabrahamsson/cf-dyn-dns/commit/9cbb910bd968c37a9fe99450a8307250f2ba8242))
+* **pac:** Conditional image release ([048132d](https://github.com/pabrahamsson/cf-dyn-dns/commit/048132d315446ebc9800d4fdf89a47908a578b7d))
+* **pac:** Fix rootless container build ([b46baf7](https://github.com/pabrahamsson/cf-dyn-dns/commit/b46baf787ccdeeb2f9f5d0677b098d6fd64ed10c))
+* **pac:** Use Kaniko ([3e9d05c](https://github.com/pabrahamsson/cf-dyn-dns/commit/3e9d05c4952ec5828a04dad3593b483417f0125d))
+* **pac:** Use rootless build ([376c68e](https://github.com/pabrahamsson/cf-dyn-dns/commit/376c68e4ee822fbc11d2f3f2cf7dda2ea7b6d99b))
+* **pac:** Use UBI 10 build images ([5ef33da](https://github.com/pabrahamsson/cf-dyn-dns/commit/5ef33da710ab29a8f033858714a5ba7e0928e0e8))
+* **tkn:** Add release-please manifest ([10a4a96](https://github.com/pabrahamsson/cf-dyn-dns/commit/10a4a960155a49a26a2f79893957c4128eec9f64))
+* **tkn:** Add release-please manifest ([85e8fa2](https://github.com/pabrahamsson/cf-dyn-dns/commit/85e8fa2358fbd3bbd24b44afc49bc25d06cd8060))
+
 ## [1.4.12](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.11...v1.4.12) (2025-05-08)
 
 
