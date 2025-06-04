@@ -5,8 +5,6 @@ ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
 
-USER 0
-
 # Copy the code
 WORKDIR /opt/app-root/src
 COPY . .
