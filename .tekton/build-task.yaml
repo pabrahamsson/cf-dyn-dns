@@ -77,8 +77,6 @@ spec:
   stepTemplate:
     computeResources: {}
     env:
-      - name: HOME
-        value: /tekton/home
       - name: PARAMS_IMAGE
         value: $(params.IMAGE)
       - name: PARAMS_CONTEXT
@@ -142,8 +140,6 @@ spec:
       volumeMounts:
         - mountPath: /scripts
           name: scripts-dir
-        - mountPath: /home/build/.local/share/containers
-          name: varlibcontainers
       workingDir: $(workspaces.source.path)
   volumes:
     - emptyDir: {}
