@@ -77,6 +77,8 @@ spec:
   stepTemplate:
     computeResources: {}
     env:
+      - name: HOME
+        value: /home/build
       - name: PARAMS_IMAGE
         value: $(params.IMAGE)
       - name: PARAMS_CONTEXT
@@ -118,7 +120,7 @@ spec:
         add:
           - SETFCAP
       runAsNonRoot: true
-      runAsUser: 1001
+      runAsUser: 1000
   steps:
     - args:
         - $(params.BUILD_ARGS[*])
@@ -134,7 +136,7 @@ spec:
         chmod +x /scripts/buildah-*.sh;echo "Running Script /scripts/buildah-bud.sh";
           /scripts/buildah-bud.sh;
       securityContext:
-        runAsUser: 1001
+        runAsUser: 1000
       volumeMounts:
         - mountPath: /scripts
           name: scripts-dir
