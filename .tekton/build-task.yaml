@@ -120,7 +120,7 @@ spec:
         add:
           - SETFCAP
       runAsNonRoot: true
-      runAsUser: 1000
+      runAsUser: 1001
   steps:
     - args:
         - $(params.BUILD_ARGS[*])
@@ -138,7 +138,7 @@ spec:
         chmod +x /scripts/buildah-*.sh;echo "Running Script /scripts/buildah-bud.sh";
           /scripts/buildah-bud.sh;
       securityContext:
-        runAsUser: 1000
+        runAsUser: 1001
       volumeMounts:
         - mountPath: /scripts
           name: scripts-dir
