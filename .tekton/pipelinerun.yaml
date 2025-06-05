@@ -39,7 +39,7 @@ spec:
           - name: source
             workspace: source
         taskRef:
-          name: buildah
+          name: buildah-as-user
         params:
           - name: IMAGE
             value: ghcr.io/pabrahamsson/cf-dyn-dns

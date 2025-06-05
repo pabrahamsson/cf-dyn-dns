@@ -2,6 +2,9 @@ apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: buildah-as-user
+  annotations:
+    io.kubernetes.cri-o.userns-mode: "auto:size=65536;map-to-root=true"
+    io.openshift.builder: "true"
 spec:
   description: |
     Buildah task builds source into a container image and
@@ -113,6 +116,10 @@ spec:
       - name: RESULTS_IMAGE_DIGEST_PATH
         value: $(results.IMAGE_DIGEST.path)
     securityContext:
+      cababilities:
+        add:
+          - SETFCAP
+      runAsNonRoot: true
       runAsUser: 1000
   steps:
     - args:
