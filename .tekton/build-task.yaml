@@ -116,6 +116,9 @@ spec:
       - name: RESULTS_IMAGE_DIGEST_PATH
         value: $(results.IMAGE_DIGEST.path)
     securityContext:
+      capabilities:
+        add:
+          - SETFCAP
       runAsUser: 1000
   steps:
     - args:
