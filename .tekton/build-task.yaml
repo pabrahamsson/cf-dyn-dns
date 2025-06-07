@@ -121,7 +121,8 @@ spec:
     - args:
         - $(params.BUILD_ARGS[*])
       computeResources: {}
-      image: registry.redhat.io/rhel9/buildah@sha256:a6e04c061b8d261dba85d01dcb64d3f7dba8c0b9765e03f05ec79850a248d75a
+      #image: registry.redhat.io/rhel9/buildah@sha256:a6e04c061b8d261dba85d01dcb64d3f7dba8c0b9765e03f05ec79850a248d75a
+      image: registry.redhat.io/ubi10/buildah@sha256:01d09cc2988b5cb161e13c2cce78862b303a3a976639756cbb3b4eb72d10a0e4
       name: build
       script: |
         set -e
