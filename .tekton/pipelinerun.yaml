@@ -33,8 +33,6 @@ spec:
             value: $(params.repo_url)
           - name: revision
             value: $(params.revision)
-          - name: SKIP_PUSH
-            value: "true"
       - name: build
         runAfter:
           - fetch-repository
