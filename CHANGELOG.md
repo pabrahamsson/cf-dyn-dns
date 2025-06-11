@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.3](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.2...v1.6.3) (2025-06-11)
+
+
+### Bug Fixes
+
+* **ci:** Use renovate kubernetes manager for pipelines ([#120](https://github.com/pabrahamsson/cf-dyn-dns/issues/120)) ([2f03234](https://github.com/pabrahamsson/cf-dyn-dns/commit/2f03234502895b4bb5f03b46ce6cbd3ed0ecb8b6))
+
 ## [1.6.2](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.1...v1.6.2) (2025-06-11)
 
 
