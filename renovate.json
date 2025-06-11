@@ -3,8 +3,9 @@
   "extends": [
     "config:best-practices"
   ],
-  "tekton": {
+  "kubernetes": {
     "managerFilePatterns": [
+      "^\\.tekton/pipelinerun\\.yaml$",
       "^\\.tekton/release-please\\.yaml$"
     ]
   }
