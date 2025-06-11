@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.1...v1.6.2) (2025-06-11)
+
+
+### Bug Fixes
+
+* **pac:** Check PaC for image updates ([#116](https://github.com/pabrahamsson/cf-dyn-dns/issues/116)) ([bc8d5d4](https://github.com/pabrahamsson/cf-dyn-dns/commit/bc8d5d4810811609e54a5fc0d4d999683821f76f))
+
 ## [1.6.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.0...v1.6.1) (2025-06-11)
 
 
