@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.5.0...v1.6.0) (2025-06-11)
+
+
+### Features
+
+* **pac:** Migrate to use Buildah ([65a8df8](https://github.com/pabrahamsson/cf-dyn-dns/commit/65a8df84e5c7f5f2538f890e8f703198dcd1a3f4))
+* **pac:** Migrate to use Buildah ([acfbf26](https://github.com/pabrahamsson/cf-dyn-dns/commit/acfbf26ad2438b14adc480a5183447a24f33091c))
+
+
+### Bug Fixes
+
+* **pac:** Don't use cluster resolver for local tasks ([35e1882](https://github.com/pabrahamsson/cf-dyn-dns/commit/35e1882f02c54e25424ef4fcc1207ec1b39c53e8))
+* **pac:** Don't use cluster resolver for local tasks ([3e95e97](https://github.com/pabrahamsson/cf-dyn-dns/commit/3e95e976c409e34b9c5e97651ae47f72509f9d37))
+
 ## [1.5.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.4.12...v1.5.0) (2025-06-04)
 
 
