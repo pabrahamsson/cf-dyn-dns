@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.0...v1.6.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* **pac:** Add registry push creds ([7fc7fb6](https://github.com/pabrahamsson/cf-dyn-dns/commit/7fc7fb68b38665b21fa93030114b3f7eff0e97ff))
+* **pac:** Add registry push creds ([01e8839](https://github.com/pabrahamsson/cf-dyn-dns/commit/01e8839c3a66e060d155730c85ec3994b5d88720))
+
 ## [1.6.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.5.0...v1.6.0) (2025-06-11)
 
 
