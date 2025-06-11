@@ -61,8 +61,6 @@ spec:
         workspaces:
           - name: source
             workspace: source
-          - name: dockerconfig
-            workspace: dockerconfig-ws
     workspaces:
       - name: source
   workspaces:
@@ -74,6 +72,3 @@ spec:
           resources:
             requests:
               storage: 1Gi
-    - name: dockerconfig-ws
-      secret:
-        secretName: ghcr-io
