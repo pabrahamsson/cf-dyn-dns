@@ -40,14 +40,7 @@ spec:
         runAfter:
           - fetch-repository
         taskRef:
-          params:
-            - name: kind
-              value: task
-            - name: name
-              value: release-please
-            - name: namespace
-              value: cf-dyn-dns-builds
-          resolver: cluster
+          name: release-please
         workspaces:
           - name: source
             workspace: source
@@ -55,14 +48,7 @@ spec:
         runAfter:
           - release-please
         taskRef:
-          params:
-            - name: kind
-              value: task
-            - name: name
-              value: check-release-status
-            - name: namespace
-              value: cf-dyn-dns-builds
-          resolver: cluster
+          name: check-release-status
         params:
           - name: release-created
             value: "$(tasks.release-please.results.release-created)"
