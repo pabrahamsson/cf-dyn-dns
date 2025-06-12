@@ -5,8 +5,8 @@
   ],
   "kubernetes": {
     "managerFilePatterns": [
-      "^\\.tekton/pipelinerun\\.yaml$",
-      "^\\.tekton/release-please\\.yaml$"
+      "/^\\.tekton/pipelinerun\\.yaml$/",
+      "/^\\.tekton/release-please\\.yaml$/"
     ]
   }
 }
