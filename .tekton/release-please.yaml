@@ -110,7 +110,7 @@ spec:
     - name: source
   steps:
     - name: create-release-pr
-      image: quay.io/pabrahamsson/release-please:17.0.0-4
+      image: quay.io/pabrahamsson/release-please:17.0.0-4@sha256:1e5b1b7b624ca733f1d3f1c8c754fc7e636337ffbc89bdca640eae7857d3fa33
       env:
         - name: GH_TOKEN
           valueFrom:
@@ -176,7 +176,7 @@ spec:
     - name: source
   steps:
     - name: check-release
-      image: quay.io/pabrahamsson/git:2.47.1-1
+      image: quay.io/pabrahamsson/git:2.47.1-1@sha256:43dc9a4cbec5b220e73906551a8c24c4bbf0e79c4c63f13810c423172e2463bd
       env:
         - name: GITHUB_TOKEN
           valueFrom:
