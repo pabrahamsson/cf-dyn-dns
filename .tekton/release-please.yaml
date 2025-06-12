@@ -227,38 +227,3 @@ spec:
         printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
         printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
         echo "release-created: $(params.release-created)"
----
-apiVersion: tekton.dev/v1
-kind: Task
-metadata:
-  name: build-and-upload-release-artifacts
-spec:
-  params:
-    - name: release-created
-    - name: release-tag
-    - name: release-id
-  workspaces:
-    - name: source
-  steps:
-    - name: build-artifacts
-      image: registry.access.redhat.com/ubi9/go-toolset:9.5-1747059472
-      workingDir: $(workspaces.source.path)
-      script: |
-        $!/usr/bin/env bash
-        set -e
-
-        echo "release-created: $(params.release-created)"
-        echo "release-tag: $(params.release-tag)"
-        echo "release-id: $(params.release-id)"
-
-        if [[ "$(params.release-created)" != "true" ]]; then
-          echo "Skipping artifact build."
-          exit 0
-        fi
-
-        echo "Building project artifacts for release $(params.release-tag)..."
-
-        git config --global --add safe.directory $(pwd)
-        make && make gotest && make checksums
-
-        echo "New release detected with tag $(params.release-tag). Proceeding with artifact upload."
