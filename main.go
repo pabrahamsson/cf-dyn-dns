@@ -144,7 +144,7 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 		return err
 	}
 	if len(zones.Result) != 1 {
-		return fmt.Errorf("Unexpected number of zones found: %v", zones.Result)
+		return fmt.Errorf("unexpected number of zones found: %v", zones.Result)
 	}
 	zoneId := zones.Result[0].ID
 	name := cfdns.RecordListParamsName{
@@ -158,13 +158,14 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 		return err
 	}
 	if len(recs.Result) != 1 {
-		return fmt.Errorf("Unexpected number of records found: %v", recs.Result)
+		return fmt.Errorf("unexpected number of records found: %v", recs.Result)
 	}
 	recordId := recs.Result[0].ID
 	_, err = client.DNS.Records.Update(ctx, recordId, cfdns.RecordUpdateParams{
 		ZoneID: cloudflare.F(zoneId),
-		Record: cfdns.RecordParam{
+		Body: cfdns.ARecordParam{
 			Name: cloudflare.F(dnsName),
+			Type: cloudflare.F(cfdns.ARecordTypeA),
 		},
 	}, option.WithJSONSet("content", newIPAddress), option.WithJSONSet("type", "A"))
 	duration := time.Since(start)
