@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.4](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.3...v1.6.4) (2025-06-18)
+
+
+### Bug Fixes
+
+* **cloudflare-go:** Changed cloudflare-go 4.5.0 RecordUpdateParams ([#130](https://github.com/pabrahamsson/cf-dyn-dns/issues/130)) ([3876852](https://github.com/pabrahamsson/cf-dyn-dns/commit/3876852e43554cfd5d4efe5ca38e2714315e76ce))
+* **config:** Renovate file pattern regex ([#125](https://github.com/pabrahamsson/cf-dyn-dns/issues/125)) ([96c8108](https://github.com/pabrahamsson/cf-dyn-dns/commit/96c8108b1ff6ad51aa65e4dea60241b588bed01a))
+* **pac:** Only run release pipeline on path changes ([#123](https://github.com/pabrahamsson/cf-dyn-dns/issues/123)) ([edb9019](https://github.com/pabrahamsson/cf-dyn-dns/commit/edb90191af0a678eac8bdc34d0d436f56872c9c5))
+
 ## [1.6.3](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.2...v1.6.3) (2025-06-11)
 
 
