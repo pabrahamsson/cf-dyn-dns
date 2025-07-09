@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.7](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.6...v1.6.7) (2025-07-09)
+
+
+### Bug Fixes
+
+* **pac:** Add 'latest' tag on release image ([#141](https://github.com/pabrahamsson/cf-dyn-dns/issues/141)) ([4acb64f](https://github.com/pabrahamsson/cf-dyn-dns/commit/4acb64fbee94e8ab16369a99e7c9b3ededd20f30))
+* **pac:** Use string for BUILD_EXTRA_ARGS ([#142](https://github.com/pabrahamsson/cf-dyn-dns/issues/142)) ([f221bd5](https://github.com/pabrahamsson/cf-dyn-dns/commit/f221bd59c796c4bb6384615834f23002c4679d61))
+
 ## [1.6.6](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.5...v1.6.6) (2025-07-09)
 
 
