@@ -6,7 +6,7 @@ toolchain go1.24.5
 
 require (
 	github.com/cloudflare/cloudflare-go/v4 v4.5.1
-	github.com/miekg/dns v1.1.66
+	github.com/miekg/dns v1.1.67
 	github.com/prometheus/client_golang v1.22.0
 	github.com/rs/zerolog v1.34.0
 	go.opentelemetry.io/otel v1.37.0
