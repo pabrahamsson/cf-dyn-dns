@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.6](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.5...v1.6.6) (2025-07-09)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/miekg/dns to v1.1.67 ([#139](https://github.com/pabrahamsson/cf-dyn-dns/issues/139)) ([c9751a7](https://github.com/pabrahamsson/cf-dyn-dns/commit/c9751a761d30cf2008346d3eb66ce2191839e00e))
+
 ## [1.6.5](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.4...v1.6.5) (2025-06-30)
 
 
