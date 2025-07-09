@@ -68,9 +68,7 @@ spec:
           - name: DOCKERFILE
             value: ./Containerfile
           - name: BUILD_EXTRA_ARGS
-            value:
-              - "-t"
-              - "ghcr.io/pabrahamsson/cf-dyn-dns:latest"
+            value: "-t ghcr.io/pabrahamsson/cf-dyn-dns:latest"
         taskRef:
           params:
             - name: kind
