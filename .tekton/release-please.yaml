@@ -57,7 +57,7 @@ spec:
         workspaces:
           - name: source
             workspace: source
-      - name: build-and-push-image
+      - name: build-and-push-image-tag
         when:
           - cel: "'$(tasks.release-please.results.release-created)' == 'true'"
         runAfter:
@@ -67,8 +67,30 @@ spec:
             value: "ghcr.io/pabrahamsson/cf-dyn-dns:$(tasks.check-release-status.results.release-tag)"
           - name: DOCKERFILE
             value: ./Containerfile
-          - name: BUILD_EXTRA_ARGS
-            value: "-t ghcr.io/pabrahamsson/cf-dyn-dns:latest"
+        taskRef:
+          params:
+            - name: kind
+              value: task
+            - name: name
+              value: buildah
+            - name: namespace
+              value: openshift-pipelines
+          resolver: cluster
+        workspaces:
+          - name: source
+            workspace: source
+          - name: dockerconfig
+            workspace: dockerconfig-ws
+      - name: build-and-push-image-latest
+        when:
+          - cel: "'$(tasks.release-please.results.release-created)' == 'true'"
+        runAfter:
+          - check-release-status
+        params:
+          - name: IMAGE
+            value: "ghcr.io/pabrahamsson/cf-dyn-dns:latest"
+          - name: DOCKERFILE
+            value: ./Containerfile
         taskRef:
           params:
             - name: kind
