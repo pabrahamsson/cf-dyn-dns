@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.8](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.7...v1.6.8) (2025-07-10)
+
+
+### Bug Fixes
+
+* **pac:** Use build step for 2nd image tag ([#145](https://github.com/pabrahamsson/cf-dyn-dns/issues/145)) ([f8953cd](https://github.com/pabrahamsson/cf-dyn-dns/commit/f8953cde7ea544acb8a60f7cb184a160b0d9d2d0))
+
 ## [1.6.7](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.6...v1.6.7) (2025-07-09)
 
 
