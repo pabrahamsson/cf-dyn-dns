@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.9](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.8...v1.6.9) (2025-07-12)
+
+
+### Bug Fixes
+
+* **pac:** Use Skopeo to move latest tag ([#147](https://github.com/pabrahamsson/cf-dyn-dns/issues/147)) ([217cca4](https://github.com/pabrahamsson/cf-dyn-dns/commit/217cca45a16a1e2bd4af4a647a594f290abdeb89))
+
 ## [1.6.8](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.7...v1.6.8) (2025-07-10)
 
 
