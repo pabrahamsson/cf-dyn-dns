@@ -260,7 +260,7 @@ spec:
     - env:
         - name: DOCKER_CONFIG
           value: $(workspaces.dockerconfig.path)
-      image: quay.io/skopeo/stable:v1.8.0
+      image: quay.io/skopeo/stable:v1.8.0@sha256:c959266533280bd246cf33dd90cfbe6a4708b7883178d18531ff3e8a2be7f118
       name: clone
       script: |
         #!/usr/bin/env sh
