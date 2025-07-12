@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.11](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.10...v1.6.11) (2025-07-12)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v4.6.0 ([#144](https://github.com/pabrahamsson/cf-dyn-dns/issues/144)) ([0d665a2](https://github.com/pabrahamsson/cf-dyn-dns/commit/0d665a2c66f3ec10f3e44f585aa811573ea87476))
+
 ## [1.6.10](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.9...v1.6.10) (2025-07-12)
 
 
