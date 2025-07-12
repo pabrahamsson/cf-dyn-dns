@@ -257,16 +257,13 @@ spec:
       name: DESTINATION_IMAGE_URL
       type: string
   steps:
-    - env:
-        - name: DOCKER_CONFIG
-          value: $(workspaces.dockerconfig.path)
-      image: quay.io/skopeo/stable:v1.19.0@sha256:29b4490f94975e7ad079dfcd60e2840b406bb58f059d2aada842894ee4983b74
+    - image: quay.io/skopeo/stable:v1.19.0@sha256:29b4490f94975e7ad079dfcd60e2840b406bb58f059d2aada842894ee4983b74
       name: clone
       script: |
         #!/usr/bin/env sh
         set -eu
         if [ -n "$(params.SOURCE_IMAGE_URL)" ] && [ -n "$(params.DESTINATION_IMAGE_URL)" ]; then
-          skopeo copy --debug $(params.SOURCE_IMAGE_URL) $(params.DESTINATION_IMAGE_URL)
+          skopeo copy --authfile=$(workspaces.dockerconfig.path)/config.json --debug $(params.SOURCE_IMAGE_URL) $(params.DESTINATION_IMAGE_URL)
         else
           echo "ERROR: Neither Source/Destination image URL parameters were provided" 2>&1
           exit 1
