@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.10](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.9...v1.6.10) (2025-07-12)
+
+
+### Bug Fixes
+
+* **pac:** Use --authfile instead deprecated DOCKER_CONFIG for skopeo ([#151](https://github.com/pabrahamsson/cf-dyn-dns/issues/151)) ([42b1fe0](https://github.com/pabrahamsson/cf-dyn-dns/commit/42b1fe08a302182a96b45c3b8690ffaf79cafbac))
+
 ## [1.6.9](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.8...v1.6.9) (2025-07-12)
 
 
