@@ -81,28 +81,19 @@ spec:
             workspace: source
           - name: dockerconfig
             workspace: dockerconfig-ws
-      - name: build-and-push-image-latest
+      - name: move-latest-tag
         when:
           - cel: "'$(tasks.release-please.results.release-created)' == 'true'"
         runAfter:
-          - check-release-status
+          - build-and-push-image-tag
         params:
-          - name: IMAGE
-            value: "ghcr.io/pabrahamsson/cf-dyn-dns:latest"
-          - name: DOCKERFILE
-            value: ./Containerfile
+          - name: SOURCE_IMAGE_URL
+            value: "docker://ghcr.io/pabrahamsson/cf-dyn-dns:$(tasks.check-release-status.results.release-tag)"
+          - name: DESTINATION_IMAGE_URL
+            value: "docker://ghcr.io/pabrahamsson/cf-dyn-dns:latest"
         taskRef:
-          params:
-            - name: kind
-              value: task
-            - name: name
-              value: buildah
-            - name: namespace
-              value: openshift-pipelines
-          resolver: cluster
+          name: skopeo-copy
         workspaces:
-          - name: source
-            workspace: source
           - name: dockerconfig
             workspace: dockerconfig-ws
     workspaces:
@@ -251,3 +242,35 @@ spec:
         printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
         printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
         echo "release-created: $(params.release-created)"
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: skopeo-copy
+  namespace: cf-dyn-dns-builds
+spec:
+  params:
+    - default: ""
+      name: SOURCE_IMAGE_URL
+      type: string
+    - default: ""
+      name: DESTINATION_IMAGE_URL
+      type: string
+  steps:
+    - env:
+        - name: DOCKER_CONFIG
+          value: $(workspaces.dockerconfig.path)
+      image: quay.io/skopeo/stable:v1.8.0
+      name: clone
+      script: |
+        #!/usr/bin/env sh
+        set -eu
+        if [ -n "$(params.SOURCE_IMAGE_URL)" ] && [ -n "$(params.DESTINATION_IMAGE_URL)" ]; then
+          skopeo copy --debug $(params.SOURCE_IMAGE_URL) $(params.DESTINATION_IMAGE_URL)
+        else
+          echo "ERROR: Neither Source/Destination image URL parameters were provided" 2>&1
+          exit 1
+        fi
+  workspaces:
+    - description: Includes a docker `config.json`
+      name: dockerconfig
