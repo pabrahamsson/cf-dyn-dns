@@ -257,7 +257,7 @@ spec:
       name: DESTINATION_IMAGE_URL
       type: string
   steps:
-    - image: quay.io/skopeo/stable:v1.19.0@sha256:8e8886ec1cfc43297f2f6e49eb10a287fd4d2d4d51f12403d35ac6f118e59d5c
+    - image: quay.io/skopeo/stable:v1.19.0@sha256:555440890f663bd0e30c78d13d9edb505d95b3c417b84f466e9b832d24db179c
       name: clone
       script: |
         #!/usr/bin/env sh
