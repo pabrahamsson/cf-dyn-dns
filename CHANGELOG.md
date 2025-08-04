@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.13](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.12...v1.6.13) (2025-08-04)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v5 ([#174](https://github.com/pabrahamsson/cf-dyn-dns/issues/174)) ([5fdad9f](https://github.com/pabrahamsson/cf-dyn-dns/commit/5fdad9f1a1d9ca690277d449585c2faba8ad1bb7))
+* **deps:** update module github.com/cloudflare/cloudflare-go/v4 to v5 ([#176](https://github.com/pabrahamsson/cf-dyn-dns/issues/176)) ([95ec64d](https://github.com/pabrahamsson/cf-dyn-dns/commit/95ec64d81c9b7c92bb4d9715bb87da242638e536))
+* **deps:** update module github.com/miekg/dns to v1.1.68 ([#172](https://github.com/pabrahamsson/cf-dyn-dns/issues/172)) ([bce2002](https://github.com/pabrahamsson/cf-dyn-dns/commit/bce200287e65ff6447dda4f6acfff0eade449746))
+* **deps:** update module github.com/prometheus/client_golang to v1.23.0 ([#173](https://github.com/pabrahamsson/cf-dyn-dns/issues/173)) ([958ed13](https://github.com/pabrahamsson/cf-dyn-dns/commit/958ed13631e62ed3a113aff539e6989480a35a6d))
+
 ## [1.6.12](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.11...v1.6.12) (2025-07-23)
 
 
