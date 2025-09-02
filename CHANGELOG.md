@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.17](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.16...v1.6.17) (2025-09-02)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v5 to v6 ([#216](https://github.com/pabrahamsson/cf-dyn-dns/issues/216)) ([f25e4dd](https://github.com/pabrahamsson/cf-dyn-dns/commit/f25e4dd435c8b5eba96f5d5e3957dca762a4e097))
+* **deps:** update module github.com/cloudflare/cloudflare-go/v5 to v6 ([#219](https://github.com/pabrahamsson/cf-dyn-dns/issues/219)) ([9d060c7](https://github.com/pabrahamsson/cf-dyn-dns/commit/9d060c7f6b15c2fe34b3320de14d72415268078d))
+* **deps:** update opentelemetry-go monorepo ([#215](https://github.com/pabrahamsson/cf-dyn-dns/issues/215)) ([5fc9a65](https://github.com/pabrahamsson/cf-dyn-dns/commit/5fc9a657b525cdb5024a78d404224df5be8b44c4))
+
 ## [1.6.16](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.15...v1.6.16) (2025-08-29)
 
 
