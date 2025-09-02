@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudflare/cloudflare-go/v5"
-	cfdns "github.com/cloudflare/cloudflare-go/v5/dns"
-	"github.com/cloudflare/cloudflare-go/v5/option"
-	"github.com/cloudflare/cloudflare-go/v5/zones"
+	"github.com/cloudflare/cloudflare-go/v6"
+	cfdns "github.com/cloudflare/cloudflare-go/v6/dns"
+	"github.com/cloudflare/cloudflare-go/v6/option"
+	"github.com/cloudflare/cloudflare-go/v6/zones"
 	"github.com/miekg/dns"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog"
@@ -24,15 +24,15 @@ import (
 )
 
 const (
-	OPENDNS_HOSTNAME      = "myip.opendns.com."
-	OPENDNS_NAMESERVER    = "208.67.222.222"
-	CLOUDFLARE_NAMESERVER = "1.0.0.1"
-	name                  = "github.com/pabrahamsson/cf-dyn-dns"
+	OpendnsHostname      = "myip.opendns.com."
+	OpendnsNameserver    = "208.67.222.222"
+	CloudflareNameserver = "1.0.0.1"
+	Name                 = "github.com/pabrahamsson/cf-dyn-dns"
 )
 
 var (
-	tracer            = otel.Tracer(name)
-	meter             = otel.Meter(name)
+	tracer            = otel.Tracer(Name)
+	meter             = otel.Meter(Name)
 	successCnt        metric.Int64Counter
 	failureCnt        metric.Int64Counter
 	dnsLookupDuration metric.Int64Histogram
@@ -128,7 +128,7 @@ func ipLookup(ctx context.Context, dnsLookup *Lookup, hostLookup *Lookup) error 
 	return nil
 }
 
-func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
+func updateDNSRecord(ctx context.Context, dnsName, newIPAddress string) error {
 	ctx, span := tracer.Start(ctx, fmt.Sprintf("updateDnsRecord(%s)", newIPAddress))
 	defer span.End()
 	span.SetAttributes(
@@ -146,12 +146,12 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 	if len(zones.Result) != 1 {
 		return fmt.Errorf("unexpected number of zones found: %v", zones.Result)
 	}
-	zoneId := zones.Result[0].ID
+	zoneID := zones.Result[0].ID
 	name := cfdns.RecordListParamsName{
 		Exact: cloudflare.F(dnsName),
 	}
 	recs, err := client.DNS.Records.List(ctx, cfdns.RecordListParams{
-		ZoneID: cloudflare.F(zoneId),
+		ZoneID: cloudflare.F(zoneID),
 		Name:   cloudflare.F(name),
 	})
 	if err != nil {
@@ -160,9 +160,9 @@ func updateDnsRecord(ctx context.Context, dnsName, newIPAddress string) error {
 	if len(recs.Result) != 1 {
 		return fmt.Errorf("unexpected number of records found: %v", recs.Result)
 	}
-	recordId := recs.Result[0].ID
-	_, err = client.DNS.Records.Update(ctx, recordId, cfdns.RecordUpdateParams{
-		ZoneID: cloudflare.F(zoneId),
+	recordID := recs.Result[0].ID
+	_, err = client.DNS.Records.Update(ctx, recordID, cfdns.RecordUpdateParams{
+		ZoneID: cloudflare.F(zoneID),
 		Body: cfdns.ARecordParam{
 			Name: cloudflare.F(dnsName),
 			Type: cloudflare.F(cfdns.ARecordTypeA),
@@ -225,12 +225,12 @@ func run() (err error) {
 
 	for {
 		dnsLookup := Lookup{
-			host: CLOUDFLARE_NAMESERVER,
+			host: CloudflareNameserver,
 			name: fmt.Sprintf("%s.", dnsName),
 		}
 		hostLookup := Lookup{
-			host: OPENDNS_NAMESERVER,
-			name: OPENDNS_HOSTNAME,
+			host: OpendnsNameserver,
+			name: OpendnsHostname,
 		}
 		ctx, span := tracer.Start(context.Background(), "main")
 
@@ -243,7 +243,7 @@ func run() (err error) {
 		}
 
 		if !dnsLookup.samesies(hostLookup) {
-			err := updateDnsRecord(ctx, dnsName, hostLookup.ipAddress)
+			err := updateDNSRecord(ctx, dnsName, hostLookup.ipAddress)
 			if err != nil {
 				failureValueAttr := attribute.Int("updateDnsRecord", 1)
 				span.SetAttributes(failureValueAttr)
