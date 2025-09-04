@@ -7,7 +7,7 @@ toolchain go1.25.0
 require (
 	github.com/cloudflare/cloudflare-go/v6 v6.0.0
 	github.com/miekg/dns v1.1.68
-	github.com/prometheus/client_golang v1.23.0
+	github.com/prometheus/client_golang v1.23.1
 	github.com/rs/zerolog v1.34.0
 	go.opentelemetry.io/otel v1.38.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.38.0
@@ -30,7 +30,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
-	github.com/prometheus/common v0.65.0 // indirect
+	github.com/prometheus/common v0.66.0 // indirect
 	github.com/prometheus/otlptranslator v0.0.2 // indirect
 	github.com/prometheus/procfs v0.17.0 // indirect
 	github.com/tidwall/gjson v1.18.0 // indirect
@@ -51,4 +51,5 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250825161204-c5933d9347a5 // indirect
 	google.golang.org/grpc v1.75.0 // indirect
 	google.golang.org/protobuf v1.36.8 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
