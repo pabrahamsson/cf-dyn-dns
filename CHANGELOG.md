@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.22](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.21...v1.6.22) (2025-09-28)
+
+
+### Bug Fixes
+
+* **pac:** Tekton Hub is deprecated, use full url for remote tasks ([#246](https://github.com/pabrahamsson/cf-dyn-dns/issues/246)) ([1500a37](https://github.com/pabrahamsson/cf-dyn-dns/commit/1500a374648c953b44b890a4dbec630a00a3bb3e))
+
 ## [1.6.21](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.20...v1.6.21) (2025-09-14)
 
 
