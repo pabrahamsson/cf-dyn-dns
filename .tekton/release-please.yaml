@@ -6,99 +6,27 @@ metadata:
   annotations:
     pipelinesascode.tekton.dev/on-event: "[push]"
     pipelinesascode.tekton.dev/on-target-branch: "[main]"
-    pipelinesascode.tekton.dev/task-1: "https://github.com/tektoncd/catalog/raw/main/task/git-clone/0.10/git-clone.yaml"
-    pipelinesascode.tekton.dev/task-2: "https://github.com/tektoncd/catalog/raw/main/task/buildah/0.9/buildah.yaml"
-    pipelinesascode.tekton.dev/max-keep-runs: "10"
+    pipelinesascode.tekton.dev/max-keep-runs: "5"
     pipelinesascode.tekton.dev/on-path-changed: "[go.*, *.go, Containerfile]"
 spec:
   params:
+    - name: repo_name
+      value: "{{ repo_name }}"
+    - name: repo_owner
+      value: "{{ repo_owner }}"
     - name: repo_url
       value: "{{ repo_url }}"
     - name: revision
       value: "{{ revision }}"
-  pipelineSpec:
+  pipelineRef:
     params:
-      - name: repo_url
-      - name: revision
-    tasks:
-      - name: fetch-repository
-        params:
-          - name: URL
-            value: $(params.repo_url)
-          - name: REVISION
-            value: $(params.revision)
-        taskRef:
-          params:
-            - name: kind
-              value: task
-            - name: name
-              value: git-clone
-            - name: namespace
-              value: openshift-pipelines
-          resolver: cluster
-        workspaces:
-          - name: output
-            workspace: source
-      - name: release-please
-        runAfter:
-          - fetch-repository
-        taskRef:
-          name: release-please
-        workspaces:
-          - name: source
-            workspace: source
-      - name: check-release-status
-        runAfter:
-          - release-please
-        taskRef:
-          name: check-release-status
-        params:
-          - name: release-created
-            value: "$(tasks.release-please.results.release-created)"
-        workspaces:
-          - name: source
-            workspace: source
-      - name: build-and-push-image-tag
-        when:
-          - cel: "'$(tasks.release-please.results.release-created)' == 'true'"
-        runAfter:
-          - check-release-status
-        params:
-          - name: IMAGE
-            value: "ghcr.io/pabrahamsson/cf-dyn-dns:$(tasks.check-release-status.results.release-tag)"
-          - name: DOCKERFILE
-            value: ./Containerfile
-        taskRef:
-          params:
-            - name: kind
-              value: task
-            - name: name
-              value: buildah
-            - name: namespace
-              value: openshift-pipelines
-          resolver: cluster
-        workspaces:
-          - name: source
-            workspace: source
-          - name: dockerconfig
-            workspace: dockerconfig-ws
-      - name: move-latest-tag
-        when:
-          - cel: "'$(tasks.release-please.results.release-created)' == 'true'"
-        runAfter:
-          - build-and-push-image-tag
-        params:
-          - name: SOURCE_IMAGE_URL
-            value: "docker://ghcr.io/pabrahamsson/cf-dyn-dns:$(tasks.check-release-status.results.release-tag)"
-          - name: DESTINATION_IMAGE_URL
-            value: "docker://ghcr.io/pabrahamsson/cf-dyn-dns:latest"
-        taskRef:
-          name: skopeo-copy
-        workspaces:
-          - name: dockerconfig
-            workspace: dockerconfig-ws
-    workspaces:
-      - name: source
+      - name: kind
+        value: pipeline
+      - name: name
+        value: pipeline-release-please
+      - name: namespace
+        value: openshift-pipelines
+    resolver: cluster
   workspaces:
     - name: source
       volumeClaimTemplate:
@@ -111,164 +39,3 @@ spec:
     - name: dockerconfig-ws
       secret:
         secretName: ghcr-io
----
-apiVersion: tekton.dev/v1
-kind: Task
-metadata:
-  name: release-please
-spec:
-  results:
-    - name: release-created
-      description: True if a new release was created, false otherwise
-    - name: release-pr-created
-      description: Whether a new release PR was created or updated
-  workspaces:
-    - name: source
-  steps:
-    - name: create-release-pr
-      image: quay.io/pabrahamsson/release-please:17.0.0-4@sha256:1e5b1b7b624ca733f1d3f1c8c754fc7e636337ffbc89bdca640eae7857d3fa33
-      env:
-        - name: GH_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: github-token
-              key: token
-      workingDir: $(workspaces.source.path)
-      script: |
-        #!/usr/bin/env bash
-        set -e
-
-        # Run release-please to create/update PR
-        PR_RESULT=$(release-please release-pr \
-          --repo-url=pabrahamsson/cf-dyn-dns \
-          --token=$GH_TOKEN \
-          --debug || echo "No release PR updates needed")
-
-        echo "PR_RESULT: $PR_RESULT"
-
-        # Check if a release PR was created or updated
-        PR_REGEX='^.*Successfully (opened|updated) pull request.*$'
-        if [[ $PR_RESULT =~ $PR_REGEX ]]; then
-          printf "%s" "true" > "$(results.release-pr-created.path)"
-          echo "Release PR was created or updated."
-        else
-          printf "%s" "false" > "$(results.release-pr-created.path)"
-          echo "No updates to Release PR needed."
-        fi
-
-        # Create a GitHub release if needed
-        RELEASE_RESULT=$(release-please github-release \
-          --repo-url=pabrahamsson/cf-dyn-dns \
-          --token=$GH_TOKEN \
-          --debug || echo "No new release created")
-
-        echo "RELEASE_RESULT: $RELEASE_RESULT"
-
-        # Check if a new release was created
-        RELEASE_REGEX='^.*Creating [0-9]+ releases.*$'
-        if [[ $RELEASE_RESULT =~ $RELEASE_REGEX ]]; then
-          printf "%s" "true" > "$(results.release-created.path)"
-          echo "New GitHub release was created."
-        else
-          printf "%s" "false" > "$(results.release-created.path)"
-          echo "No new GitHub release was needed."
-        fi
----
-apiVersion: tekton.dev/v1
-kind: Task
-metadata:
-  name: check-release-status
-spec:
-  params:
-    - name: release-created
-  results:
-    - name: release-created
-      description: True if a new release was created, false otherwise
-    - name: release-tag
-      description: The tag name of the release if one was created
-    - name: release-id
-      description: The ID of the release if one was created
-  workspaces:
-    - name: source
-  steps:
-    - name: check-release
-      image: quay.io/pabrahamsson/git:2.47.3-1@sha256:0ede8290f398031a7ecc0c4b6d6ad19b13d411caf2dafbe01f1bc5d94d81df62
-      env:
-        - name: GITHUB_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: github-token
-              key: token
-      workingDir: $(workspaces.source.path)
-      script: |
-        #!/usr/bin/env bash
-        set -e
-
-        # Check for open PRs from release-please
-        echo "Checking for open Release Please pull requests..."
-        curl -s -H "Authorization: token $GITHUB_TOKEN" \
-          "https://api.github.com/repos/pabrahamsson/cf-dyn-dns/pulls?head=pabrahamsson:release-please" | \
-          jq -r '.[] | "Found PR #\(.number): \(.title)"'
-
-        # Check for latest release
-        echo "Checking latest release information..."
-        LATEST_RELEASE=$(curl -s H "Authorization: token $GITHUB_TOKEN" \
-          "https://api.github.com/repos/pabrahamsson/cf-dyn-dns/releases/latest")
-
-        # Get the tag name and display info
-        TAG_NAME=$(echo $LATEST_RELEASE | jq -r '.tag_name')
-        RELEASE_NAME=$(echo $LATEST_RELEASE | jq -r '.name')
-        RELEASE_ID=$(echo $LATEST_RELEASE | jq -r '.id')
-
-        echo "Latest release: $TAG_NAME - $RELEASE_NAME"
-
-        # Check if this is a new release by comparing with recent git history
-        #git config --global --add safe.directory $(pwd)
-        #git fetch --tags
-
-        # Check if the tag exists in local git history, if not it's likely new
-        #if git rev-parse -q --verify "refs/tags/$TAG_NAME" >/dev/null; then
-        #  # Tag exists locally - probably not a new release
-        #  echo -n "false" | tee "$(results.release-created.path)"
-        #  echo
-        #  echo "Release with tag $TAG_NAME already exists locally."
-        #else
-        #  echo -n "true" | tee "$(results.release-created.path)"
-        #  echo
-        #  echo "New release detected with tag $TAG_NAME."
-        #fi
-
-        # Store the tag name and release ID for potential use by later tasks
-        printf "%s" "$(params.release-created)" > "$(results.release-created.path)"
-        printf "%s" "$TAG_NAME" > "$(results.release-tag.path)"
-        printf "%s" "$RELEASE_ID" > "$(results.release-id.path)"
-        echo "release-created: $(params.release-created)"
----
-apiVersion: tekton.dev/v1
-kind: Task
-metadata:
-  name: skopeo-copy
-  namespace: cf-dyn-dns-builds
-spec:
-  params:
-    - default: ""
-      name: SOURCE_IMAGE_URL
-      type: string
-    - default: ""
-      name: DESTINATION_IMAGE_URL
-      type: string
-  steps:
-    - image: quay.io/skopeo/stable:v1.20.0@sha256:b14d9fda2dbfcc90040923fe4cbef8fcaac374948097a77ad3728f6dd0fbc6fe
-      name: clone
-      script: |
-        #!/usr/bin/env sh
-        set -eu
-        if [ -n "$(params.SOURCE_IMAGE_URL)" ] && [ -n "$(params.DESTINATION_IMAGE_URL)" ]; then
-          skopeo copy --authfile=$(workspaces.dockerconfig.path)/config.json --debug $(params.SOURCE_IMAGE_URL) $(params.DESTINATION_IMAGE_URL)
-        else
-          echo "ERROR: Neither Source/Destination image URL parameters were provided" 2>&1
-          exit 1
-        fi
-  workspaces:
-    - description: Includes a docker `config.json`
-      name: dockerconfig
