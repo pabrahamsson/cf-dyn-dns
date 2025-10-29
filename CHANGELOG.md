@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.24...v1.7.0) (2025-10-29)
+
+
+### Features
+
+* Consolidate release-please pipeline ([#285](https://github.com/pabrahamsson/cf-dyn-dns/issues/285)) ([1d20206](https://github.com/pabrahamsson/cf-dyn-dns/commit/1d2020652ddf9b4789b1d799be2421c5418ccf8c))
+
 ## [1.6.24](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.6.23...v1.6.24) (2025-10-23)
 
 
