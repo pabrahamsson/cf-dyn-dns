@@ -13,7 +13,7 @@ RUN export CGO_ENABLED=0 GOOS=${TARGETOS:-linux} GOARCH=${TARGETARCH} && \
   go build -buildvcs=false . 
 RUN ls -al
 
-FROM registry.access.redhat.com/ubi10/ubi-micro:10.1-1762215812@sha256:c2a5841f6fc280b93761e8a55f3de9e5dd861cdcfca8de04a8c574f15fd7acac
+FROM registry.access.redhat.com/ubi10/ubi-micro:10.1-1763138307@sha256:fc8e116afac12a9164be775e21483da7b6e86f91d8e9e6e79dee23afe4e58468
 
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
 
