@@ -1,6 +1,6 @@
 
 # Build the manager binary
-FROM registry.access.redhat.com/ubi10/go-toolset:10.1-1770139028@sha256:fcfd7c6a935f305a5486664cad59cf49d2dcfd98b79ee65fb55f0d7f1e4cfcd0 AS builder
+FROM registry.access.redhat.com/ubi10/go-toolset:10.1-1770222533@sha256:bb086af0dea809fc86492bbb21f7e80109cb376004000b9d38ae7e9782cc24c1 AS builder
 ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 ARG MODULE=github.com/pabrahamsson/cf-dyn-dns
