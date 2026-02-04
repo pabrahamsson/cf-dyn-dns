@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.10](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.7.9...v1.7.10) (2026-02-03)
+
+
+### Bug Fixes
+
+* **deps:** update module go.opentelemetry.io/otel/exporters/prometheus to v0.62.0 ([#325](https://github.com/pabrahamsson/cf-dyn-dns/issues/325)) ([d767cf5](https://github.com/pabrahamsson/cf-dyn-dns/commit/d767cf5b11cacd4c6ac84555b9d9b71b791792cb))
+
 ## [1.7.9](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.7.8...v1.7.9) (2026-02-02)
 
 
