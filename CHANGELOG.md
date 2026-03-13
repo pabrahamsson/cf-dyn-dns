@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.7.13...v1.8.0) (2026-03-13)
+
+
+### Features
+
+* **ci:** Switch to use Hummingbird container images ([#346](https://github.com/pabrahamsson/cf-dyn-dns/issues/346)) ([af79a24](https://github.com/pabrahamsson/cf-dyn-dns/commit/af79a245eb8450cde8fcc9baad41d244fb71a1d8))
+
 ## [1.7.13](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.7.12...v1.7.13) (2026-03-11)
 
 
