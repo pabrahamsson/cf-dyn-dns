@@ -8,6 +8,6 @@ WORKDIR /src
 
 RUN go build -o /cf-dyn-dns
 
-FROM quay.io/hummingbird/core-runtime:2@sha256:423948a1cc81bde1b75f553b592f483e12fd246119bcf98f5df41891197d9534
+FROM quay.io/hummingbird/core-runtime:2@sha256:3684aec36bb5cb0ca62ac911578fc9a99f9ad6d397ee69da4cefecedac669688
 COPY --from=builder /cf-dyn-dns /cf-dyn-dns
 ENTRYPOINT ["/cf-dyn-dns"]
