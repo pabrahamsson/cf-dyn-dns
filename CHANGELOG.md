@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.8.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.8.0...v1.8.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v6 to v6.9.0 ([#367](https://github.com/pabrahamsson/cf-dyn-dns/issues/367)) ([c785465](https://github.com/pabrahamsson/cf-dyn-dns/commit/c785465054b4d8d04b5f1165fae4fae61412e76c))
+* **deps:** update module github.com/rs/zerolog to v1.35.0 ([#365](https://github.com/pabrahamsson/cf-dyn-dns/issues/365)) ([fc579c1](https://github.com/pabrahamsson/cf-dyn-dns/commit/fc579c151f0df9b937c40e72377ac906494fa065))
+* **deps:** update opentelemetry-go monorepo ([#366](https://github.com/pabrahamsson/cf-dyn-dns/issues/366)) ([627fe72](https://github.com/pabrahamsson/cf-dyn-dns/commit/627fe72a5792dfa9673325b6573dcaad33681fdd))
+
 ## [1.8.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.7.13...v1.8.0) (2026-03-13)
 
 
