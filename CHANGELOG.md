@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.8.1...v1.9.0) (2026-04-17)
+
+
+### Features
+
+* **renovate:** Set bot schedule + security badge ([#382](https://github.com/pabrahamsson/cf-dyn-dns/issues/382)) ([b1744c8](https://github.com/pabrahamsson/cf-dyn-dns/commit/b1744c83dcafd33777734cbfe45ff27fafa3a0e4))
+
 ## [1.8.1](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.8.0...v1.8.1) (2026-04-04)
 
 
