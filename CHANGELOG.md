@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.5](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.9.4...v1.9.5) (2026-05-29)
+
+
+### Bug Fixes
+
+* **deps:** update opentelemetry-go monorepo ([#415](https://github.com/pabrahamsson/cf-dyn-dns/issues/415)) ([401acfe](https://github.com/pabrahamsson/cf-dyn-dns/commit/401acfe216e6f2f268369417174bb893b889d23b))
+
 ## [1.9.4](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.9.3...v1.9.4) (2026-05-27)
 
 
