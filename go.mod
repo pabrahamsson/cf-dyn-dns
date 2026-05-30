@@ -6,7 +6,7 @@ toolchain go1.26.3
 
 require (
 	github.com/cloudflare/cloudflare-go/v6 v6.10.0
-	github.com/cloudflare/cloudflare-go/v7 v7.3.0
+	github.com/cloudflare/cloudflare-go/v7 v7.4.0
 	github.com/miekg/dns v1.1.72
 	github.com/prometheus/client_golang v1.23.2
 	github.com/rs/zerolog v1.35.1
