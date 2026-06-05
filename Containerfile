@@ -1,6 +1,6 @@
 
 # Build the manager binary
-FROM quay.io/hummingbird/go:latest-builder@sha256:433377461114118a3466e4acd8807c3a53b14a5d855909c9eb927273ef9d6c9a AS builder
+FROM quay.io/hummingbird/go:latest-builder@sha256:1aaf9b36aad0fc7d2cde864bd4041605696da0a4ffd9d7c2eebc0af9238fdbc8 AS builder
 
 # Copy the code
 COPY . /src
