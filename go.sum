@@ -8,6 +8,8 @@ github.com/cloudflare/cloudflare-go/v7 v7.4.0 h1:JdTxzeXcAhtJ9rUkNISK4ABA55pZP8H
 github.com/cloudflare/cloudflare-go/v7 v7.4.0/go.mod h1:9zcoIAtu6cmcoPszCNISvqYMXs8wObtVGXE1qGFMrNU=
 github.com/cloudflare/cloudflare-go/v7 v7.5.0 h1:F3M12yYHBHOpbtYLccBwTdVF62LJUIDyLnW2WeMxjGo=
 github.com/cloudflare/cloudflare-go/v7 v7.5.0/go.mod h1:9zcoIAtu6cmcoPszCNISvqYMXs8wObtVGXE1qGFMrNU=
+github.com/cloudflare/cloudflare-go/v7 v7.6.0 h1:EdHSyuRxn4lvFU2MoqX0DS2daboghs4jWBT4HN5YgwM=
+github.com/cloudflare/cloudflare-go/v7 v7.6.0/go.mod h1:9zcoIAtu6cmcoPszCNISvqYMXs8wObtVGXE1qGFMrNU=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/go-logr/logr v1.2.2/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
