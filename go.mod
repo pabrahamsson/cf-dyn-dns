@@ -5,7 +5,7 @@ go 1.25.0
 toolchain go1.27.0
 
 require (
-	github.com/cloudflare/cloudflare-go/v7 v7.8.0
+	github.com/cloudflare/cloudflare-go/v7 v7.9.0
 	github.com/miekg/dns v1.1.72
 	github.com/prometheus/client_golang v1.24.1
 	github.com/rs/zerolog v1.35.1
