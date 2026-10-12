@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.16](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.9.15...v1.9.16) (2026-10-12)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/client_golang to v1.25.0 ([#503](https://github.com/pabrahamsson/cf-dyn-dns/issues/503)) ([86ef81d](https://github.com/pabrahamsson/cf-dyn-dns/commit/86ef81d7d3c95d17d0c7c7c4d02247637f30a812))
+
 ## [1.9.15](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.9.14...v1.9.15) (2026-10-03)
 
 
