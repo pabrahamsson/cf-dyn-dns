@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.19](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.9.18...v1.9.19) (2026-11-14)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/cloudflare/cloudflare-go/v7 to v7.15.0 ([#521](https://github.com/pabrahamsson/cf-dyn-dns/issues/521)) ([90bdde9](https://github.com/pabrahamsson/cf-dyn-dns/commit/90bdde9ff813d96166fff1dda100ce0397855d83))
+
 ## [1.9.18](https://github.com/pabrahamsson/cf-dyn-dns/compare/v1.9.17...v1.9.18) (2026-11-07)
 
 
